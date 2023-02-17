@@ -1,5 +1,5 @@
 {
-  "name": "home-hub",
+  "name": "@root/home-hub",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
@@ -7,14 +7,15 @@
     "packages/*"
   ],
   "scripts": {
+    "deploy": "turbo run deploy",
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "test": "turbo run test",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean"
   },
   "devDependencies": {
-    "eslint-config-custom": "workspace:*",
-    "prettier": "latest",
     "turbo": "latest"
   },
   "engines": {
