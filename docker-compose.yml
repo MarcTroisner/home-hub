@@ -27,7 +27,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - './db/mongo:/data/db'
+      - './.db/mongo:/data/db'
 
 networks:
   service_network: {}
