@@ -4,23 +4,24 @@
     "**/.env.*local"
   ],
   "pipeline": {
-    "deploy": {
-      "dependsOn": [
-        "build",
-        "test"
-      ]
-    },
     "build": {
       "dependsOn": [
         "^build",
         "lint",
-        "type-check"
+        "type-check",
+        "test"
       ],
       "outputs": [
         "dist/**"
       ]
     },
     "test": {
+      "inputs": [
+        "test/**/*spec.ts",
+        "test/**/*test.ts"
+      ]
+    },
+    "test:watch": {
       "inputs": [
         "test/**/*spec.ts",
         "test/**/*test.ts"
