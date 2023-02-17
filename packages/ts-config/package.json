@@ -1,0 +1,12 @@
+{
+  "name": "@package/ts-config",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "node.config.json"
+  ],
+  "scripts": {
+    "clean": "rm -rf node_modules && rm -rf dist"
+  },
+  "devDependencies": {}
+}
