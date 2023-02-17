@@ -7,14 +7,14 @@
     "deploy": {
       "dependsOn": [
         "build",
-        "lint",
-        "type-check",
         "test"
       ]
     },
     "build": {
       "dependsOn": [
-        "^build"
+        "^build",
+        "lint",
+        "type-check"
       ],
       "outputs": [
         "dist/**"
