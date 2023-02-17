@@ -1,1 +1,1 @@
-export * from './src/initMongoose';
+export * from './src/appError';

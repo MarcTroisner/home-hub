@@ -1,5 +1,3 @@
-import type { IAppError } from '../src/appError';
-
 import { describe, expect, it } from 'vitest';
 import { AppError } from '../src/appError';
 
@@ -25,28 +23,9 @@ const testData = {
   },
 };
 
-/**
- * Adds test error object to AppError $_errors property
- *
- * @param {string} identifier - Error identifier
- * @param {Record<string, any>} [meta] - Metadata object
- */
-function augmentErrorObject({ identifier, meta = {} }: IAppError): AppError {
-  const { identifiers, errorObjects } = testData;
-
-  const instance = new AppError({ identifier, meta });
-
-  instance.$_errors[identifiers.valid] = errorObjects.valid;
-  instance.identifier = instance.$_setErrorIdentifier(identifier);
-  instance.name = instance.identifier;
-  instance.message = instance.$_setErrorMessage();
-
-  return instance;
-}
-
 describe('AppError', () => {
   it('Initializes instance with valid identifier', () => {
-    const instance = augmentErrorObject({ identifier: testData.identifiers.valid });
+    const instance = new AppError({ identifier: testData.identifiers.valid });
 
     expect(instance.identifier).toBe(testData.identifiers.valid);
     expect(instance.name).toBe(testData.identifiers.valid);
@@ -54,7 +33,7 @@ describe('AppError', () => {
   });
 
   it('Replaces identifier with APP-0001 if invalid', () => {
-    const instance = augmentErrorObject({ identifier: testData.identifiers.invalid });
+    const instance = new AppError({ identifier: testData.identifiers.invalid });
 
     expect(instance.identifier).toBe(testData.identifiers.fallback);
     // expect(instance.name).toBe(testData.identifiers.fallback);
@@ -62,7 +41,7 @@ describe('AppError', () => {
   });
 
   it('Creates error response containing identifier, error object and metadata object', () => {
-    const instance = augmentErrorObject({
+    const instance = new AppError({
       identifier: testData.identifiers.valid,
       meta: testData.meta,
     });

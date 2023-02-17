@@ -40,6 +40,10 @@ export class AppError extends Error {
    * @private
    */
   $_errors: Record<string, IAppErrorObject> = {
+    'TEST-0001': {
+      detail: 'Refuses the attempt to brew coffee with a teapot.',
+      status: 418,
+    },
     'APP-0001': {
       detail: 'Internal server error.',
       status: 500,
@@ -54,43 +58,15 @@ export class AppError extends Error {
   constructor({ identifier, meta = {} }: IAppError) {
     super();
 
-    this.identifier = this.$_setErrorIdentifier(identifier);
+    const transformedIdentifier = toUpper(identifier);
+
+    this.identifier = (Object.keys(this.$_errors).includes(transformedIdentifier)) ? transformedIdentifier : 'APP-0001';
 
     this.meta = meta;
     this.name = this.identifier;
-    this.message = this.$_setErrorMessage();
+    this.message = this.$_errors[this.identifier].detail;
 
     Error.captureStackTrace(this, AppError);
-  }
-
-  /**
-   * Checks if the provided identifier is valid and returns an error identifier accordingly
-   *
-   * @param {string} identifier - Identifier provided to constructor
-   * @returns {string} The identifier, if valid, otherwise 'APP-0001'
-   */
-  $_setErrorIdentifier(identifier: string): string {
-    const transformedIdentifier = toUpper(identifier);
-
-    return (Object.keys(this.$_errors).includes(transformedIdentifier)) ? transformedIdentifier : 'APP-0001';
-  }
-
-  /**
-   * Sets error message according to identifier
-   *
-   * @returns {string} The error message
-   */
-  $_setErrorMessage(): string {
-    return this.$_errors[this.identifier].detail;
-  }
-
-  /**
-   * Returns error object matching identifier
-   *
-   * @returns {string} Error object
-   */
-  $_getErrorObject(): IAppErrorObject {
-    return this.$_errors[this.identifier];
   }
 
   /**
@@ -102,7 +78,7 @@ export class AppError extends Error {
     return {
       error: this.identifier,
       meta: this.meta,
-      ...this.$_getErrorObject(),
+      ...this.$_errors[this.identifier],
     };
   }
 }
