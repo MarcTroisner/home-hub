@@ -2,16 +2,32 @@ version: '3'
 
 services:
   web-api:
-    container_name: web-api
+    container_name: 'web-api'
     build:
       context: .
       dockerfile: apps/web-api/Dockerfile
     ports:
       - '8000:8000'
     networks:
-      - service_network
+      - 'service_network'
     environment:
       ENV: production
+    depends_on:
+      - 'mongo'
+
+  mongo:
+    container_name: 'mongo'
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    networks:
+      - 'service_network'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - './db/mongo:/data/db'
 
 networks:
   service_network: {}
