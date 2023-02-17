@@ -5,7 +5,7 @@ import { toUpper } from 'lodash';
  *
  * @see AppError
  */
-interface IAppError {
+export interface IAppError {
   identifier: string;
   meta?: Record<string, any>;
 }
@@ -58,7 +58,7 @@ export class AppError extends Error {
 
     this.meta = meta;
     this.name = this.identifier;
-    this.message = this.identifier;
+    this.message = this.$_setErrorMessage();
 
     Error.captureStackTrace(this, AppError);
   }
@@ -76,17 +76,33 @@ export class AppError extends Error {
   }
 
   /**
+   * Sets error message according to identifier
+   *
+   * @returns {string} The error message
+   */
+  $_setErrorMessage(): string {
+    return this.$_errors[this.identifier].detail;
+  }
+
+  /**
+   * Returns error object matching identifier
+   *
+   * @returns {string} Error object
+   */
+  $_getErrorObject(): IAppErrorObject {
+    return this.$_errors[this.identifier];
+  }
+
+  /**
    * Generates a response object containing information about the error
    *
    * @returns {IAppErrorResponse} Error response object
    */
   getErrorResponse(): IAppErrorResponse {
-    const errorInformation = this.$_errors[this.identifier];
-
     return {
       error: this.identifier,
       meta: this.meta,
-      ...errorInformation,
+      ...this.$_getErrorObject(),
     };
   }
 }

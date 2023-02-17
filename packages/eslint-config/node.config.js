@@ -23,6 +23,8 @@ module.exports = {
     '@typescript-eslint/lines-between-class-members': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
+    'import/extensions': 'off',
+    'import/order': 'off',
     'object-curly-newline': 'off',
     'max-len': ['error', { code: 140 }],
   }
