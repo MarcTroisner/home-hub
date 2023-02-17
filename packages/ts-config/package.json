@@ -6,7 +6,7 @@
     "node.config.json"
   ],
   "scripts": {
-    "clean": "rm -rf node_modules && rm -rf dist"
+    "clean": "rm -rf node_modules && rm -rf .turbo"
   },
   "devDependencies": {}
 }
