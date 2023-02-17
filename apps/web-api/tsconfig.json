@@ -10,8 +10,9 @@
   },
   "include": [
     ".eslintrc.cjs",
+    "vitest.config.*",
     "src/**/*",
-    "test/**/*"
+    "tests/**/*"
   ],
   "exclude": [
     "node_modules",

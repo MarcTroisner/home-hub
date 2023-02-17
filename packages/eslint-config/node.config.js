@@ -19,5 +19,7 @@ module.exports = {
   plugins: [
     '@typescript-eslint'
   ],
-  rules: {}
+  rules: {
+    'import/no-extraneous-dependencies': 'off',
+  }
 }
