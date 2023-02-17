@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  web-api:
+    container_name: web-api
+    build:
+      context: .
+      dockerfile: apps/web-api/Dockerfile
+    ports:
+      - '8000:8000'
+    networks:
+      - service_network
+    environment:
+      ENV: production
+
+networks:
+  service_network: {}
