@@ -1,10 +1,15 @@
 import type { Request, Response } from 'express';
 
 import express from 'express';
+import { httpLogger, appLogger } from '@package/middleware';
 
 const app = express();
 
-app.get('/', (_req: Request, res: Response): void => {
+app.use(httpLogger());
+app.use(appLogger);
+
+app.get('/', (req: Request, res: Response): void => {
+  req.app.logger.debug('Debug message');
   res.send({ root: 'web-api' });
 });
 
