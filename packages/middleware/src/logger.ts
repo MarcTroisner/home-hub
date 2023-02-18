@@ -76,7 +76,7 @@ export function httpLogger(): RequestHandler {
 export function appLogger(req: Request, _res: Response, next: NextFunction): void {
   const logger = createLogger({
     levels: LOG_LEVELS,
-    level: 'http',
+    level: 'trace',
     defaultMeta: (process.env.SERVICE_NAME) ? { service: process.env.SERVICE_NAME } : undefined,
     format: combine(
       timestamp(),

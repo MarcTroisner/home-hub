@@ -9,7 +9,7 @@ app.use(httpLogger());
 app.use(appLogger);
 
 app.get('/', (req: Request, res: Response): void => {
-  req.app.logger.debug('Debug message');
+  req.app.logger.error('Test message');
   res.send({ root: 'web-api' });
 });
 
