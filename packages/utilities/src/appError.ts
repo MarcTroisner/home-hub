@@ -48,6 +48,10 @@ export class AppError extends Error {
       detail: 'Internal server error.',
       status: 500,
     },
+    'VALO-0001': {
+      detail: 'Request validation failed.',
+      status: 422,
+    },
   };
 
   /** @property {string} identifier - Unique error identifier */

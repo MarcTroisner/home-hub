@@ -27,5 +27,6 @@ module.exports = {
     'import/order': 'off',
     'object-curly-newline': 'off',
     'max-len': ['error', { code: 140 }],
+    'consistent-return': 'off',
   }
 }
