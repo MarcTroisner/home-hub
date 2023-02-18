@@ -1,8 +1,4 @@
-import type { LeveledLogMethod } from 'winston';
-
-export interface IWinstonAugmentation {
-  trace: LeveledLogMethod;
-}
+import type { IWinstonAugmentation } from '@package/types';
 
 declare module 'winston' {
   interface Logger extends IWinstonAugmentation {}

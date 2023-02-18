@@ -13,7 +13,8 @@
     "test:watch": "turbo run test:watch",
     "lint": "turbo run lint",
     "type-check": "turbo run type-check",
-    "clean": "turbo run clean"
+    "clean": "turbo run clean",
+    "clean:logs": "turbo run clean:logs"
   },
   "devDependencies": {
     "turbo": "latest"
