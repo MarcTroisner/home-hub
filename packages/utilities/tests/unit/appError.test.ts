@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { AppError } from '../src/appError';
+import { AppError } from '@/appError';
 
 const testData = {
   identifiers: {
