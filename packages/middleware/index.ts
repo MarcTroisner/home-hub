@@ -1,2 +1,4 @@
 export * from './src/logger';
-export * from './src/validator';
+export * from './src/validators';
+export * from './src/appError';
+export * from './src/errorHandler';

@@ -3,7 +3,7 @@ import type { ObjectSchema } from 'joi';
 
 import { isSchema } from 'joi';
 import { pick, map } from 'lodash';
-import { AppError } from '@package/utilities';
+import { AppError } from './appError';
 
 /**
  * Validates the request body

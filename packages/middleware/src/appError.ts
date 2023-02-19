@@ -78,11 +78,20 @@ export class AppError extends Error {
    *
    * @returns {IAppErrorResponse} Error response object
    */
-  getErrorResponse(): IAppErrorResponse {
+  getResponse(): IAppErrorResponse {
     return {
       error: this.identifier,
       meta: this.meta,
       ...this.$_errors[this.identifier],
     };
+  }
+
+  /**
+   * Returns the status code for the current instance
+   *
+   * @returns {number} Error status
+   */
+  getStatus(): number {
+    return this.$_errors[this.identifier].status;
   }
 }
