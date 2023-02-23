@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Request, Response, NextFunction } from 'express';
+import type { IErrorResponder } from '@package/types';
 
 import { createLogger, format, transports } from 'winston';
 import { AppError } from './appError';
@@ -63,4 +64,48 @@ export function errorHandler(err: Error, _req: Request, res: Response, _next: Ne
   const error = (err instanceof AppError) ? err : new AppError({ identifier: 'APP-0001' });
 
   res.status(error.getStatus()).send(error.getResponse());
+}
+
+/**
+ * Error responder
+ *
+ * Responder middleware for invoking exceptions or promise rejections. Accessible via req.app.responder.
+ *
+ * @param {Request} _req - Request object
+ * @param {Response} res - Response object
+ * @param {NextFunction} _next - Next function
+ */
+export function responder(req: Request, _res: Response, next: NextFunction): void {
+  req.app.responder = {
+    /**
+     * Synchronous error responder
+     *
+     * Can be used to invoke an error inside synchronous code blocks.
+     *
+     * @param {string} identifier - App error identifier
+     * @param {Record<string, any>} meta - Optional meta data
+     */
+    sync(identifier: string, meta?: Record<string, any>): void {
+      const error = new AppError({ identifier, meta });
+
+      next(error);
+    },
+    /**
+     * Asynchronous error responder
+     *
+     * Can be used to invoke an error inside a asynchronous code block. Has to be caught afterwards and pass on to the error handler or the
+     * sync method.
+     *
+     * @param {string} identifier - App error identifier
+     * @param {Record<string, any>} meta - Optional meta data
+     * @returns {Promise<never>} A rejected promise
+     */
+    async(identifier: string, meta?: Record<string, any>): Promise<never> {
+      const error = new AppError({ identifier, meta });
+
+      return Promise.reject(error);
+    },
+  };
+
+  next();
 }

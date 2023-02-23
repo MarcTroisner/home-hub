@@ -3,12 +3,8 @@ import type { Request, Response } from 'express';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import { json } from 'body-parser';
-import {
-  httpLogger,
-  appLogger,
-  errorHandler,
-  errorLogger,
-} from '@package/middleware';
+import { errorHandler, errorLogger, responder } from '@package/middleware/error-handling';
+import { httpLogger, appLogger } from '@package/middleware/logging';
 
 const app = express();
 
@@ -16,6 +12,7 @@ app.use(json());
 app.use(cookieParser());
 app.use(httpLogger());
 app.use(appLogger);
+app.use(responder);
 
 app.get('/:id?', (req: Request, res: Response): void => {
   res.send({

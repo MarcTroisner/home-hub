@@ -15,7 +15,7 @@ import { AppError } from './appError';
  * @see {@link https://joi.dev/} for the Joi documentation
  *
  * @param {ObjectSchema} schema - Joi schema representing validation schema
- * @returns Request handler performing validation
+ * @returns {RequestHandler} Request handler performing validation
  */
 export function bodyValidator(schema: ObjectSchema): RequestHandler {
   return (req: Request, _res: Response, next: NextFunction): void => {
@@ -46,7 +46,7 @@ export function bodyValidator(schema: ObjectSchema): RequestHandler {
  * @see {@link https://joi.dev/} for the Joi documentation
  *
  * @param {ObjectSchema} schema - Joi schema representing validation schema
- * @returns Request handler performing validation
+ * @returns {RequestHandler} Request handler performing validation
  */
 export function queryValidator(schema: ObjectSchema): RequestHandler {
   return (req: Request, _res: Response, next: NextFunction): void => {
@@ -76,7 +76,7 @@ export function queryValidator(schema: ObjectSchema): RequestHandler {
  * @see {@link https://joi.dev/} for the Joi documentation
  *
  * @param {ObjectSchema} schema - Joi schema representing validation schema
- * @returns Request handler performing validation
+ * @returns {RequestHandler} Request handler performing validation
  */
 export function headerValidator(schema: ObjectSchema): RequestHandler {
   return (req: Request, _res: Response, next: NextFunction): void => {
@@ -106,7 +106,7 @@ export function headerValidator(schema: ObjectSchema): RequestHandler {
  * @see {@link https://joi.dev/} for the Joi documentation
  *
  * @param {ObjectSchema} schema - Joi schema representing validation schema
- * @returns Request handler performing validation
+ * @returns {RequestHandler} Request handler performing validation
  */
 export function cookieValidator(schema: ObjectSchema): RequestHandler {
   return (req: Request, _res: Response, next: NextFunction): void => {
