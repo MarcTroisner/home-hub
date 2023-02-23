@@ -11,7 +11,33 @@ services:
     networks:
       - service_network
     depends_on:
-      - 'mongo'
+      - mongo
+      - tracer
+
+  auth:
+    container_name: auth
+    build:
+      context: .
+      dockerfile: apps/tracer/Dockerfile
+    ports:
+      - '8000:8000'
+    networks:
+      - service_network
+    depends_on:
+      - mongo
+      - tracer
+
+  tracer:
+    container_name: tracer
+    build:
+      context: .
+      dockerfile: apps/tracer/Dockerfile
+    ports:
+      - '8000:8000'
+    networks:
+      - service_network
+    depends_on:
+      - mongo
 
   mongo:
     container_name: mongo

@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 
-import { createLogger, transports, format } from 'winston';
+import { createLogger, transports, format, Logger } from 'winston';
 import morgan from 'morgan';
 import 'winston-daily-rotate-file';
 
@@ -16,6 +16,35 @@ const LOG_LEVELS: Record<string, number> = {
 };
 
 /**
+ * Creates a usable app-logger instance
+ *
+ * @returns {Logger} Configured app logger
+ */
+export function createAppLoggerInstance(): Logger {
+  return createLogger({
+    levels: LOG_LEVELS,
+    level: 'trace',
+    defaultMeta: (process.env.SERVICE_NAME) ? { service: process.env.SERVICE_NAME } : undefined,
+    format: combine(
+      timestamp(),
+      json(),
+      metadata({ key: 'metadata' }),
+    ),
+    transports: [
+      new transports.Console({ format: prettyPrint() }),
+      new transports.DailyRotateFile({
+        filename: 'app-%DATE%.log',
+        datePattern: 'YYYY-MM-DD',
+        zippedArchive: true,
+        dirname: 'logs',
+        maxSize: '20m',
+        maxFiles: '14d',
+      }),
+    ],
+  });
+}
+
+/**
  * Registers an HTTP-logger which logs every incoming request
  *
  * Requests are logged to:
@@ -25,7 +54,7 @@ const LOG_LEVELS: Record<string, number> = {
  * @returns {RequestHandler} HTTP-logger middleware
  */
 export function httpLogger(): RequestHandler {
-  const logger = createLogger({
+  const httpLoggerInstance = createLogger({
     levels: LOG_LEVELS,
     level: 'http',
     defaultMeta: (process.env.SERVICE_NAME) ? { service: process.env.SERVICE_NAME } : undefined,
@@ -62,7 +91,7 @@ export function httpLogger(): RequestHandler {
     }),
     {
       stream: {
-        write: (message) => { logger.http('Incoming request', JSON.parse(message)); },
+        write: (message) => { httpLoggerInstance.http('Incoming request', JSON.parse(message)); },
       },
     },
   );
@@ -80,29 +109,9 @@ export function httpLogger(): RequestHandler {
  * @param {NextFunction} next - Next function
  */
 export function appLogger(req: Request, _res: Response, next: NextFunction): void {
-  const logger = createLogger({
-    levels: LOG_LEVELS,
-    level: 'trace',
-    defaultMeta: (process.env.SERVICE_NAME) ? { service: process.env.SERVICE_NAME } : undefined,
-    format: combine(
-      timestamp(),
-      json(),
-      metadata({ key: 'metadata' }),
-    ),
-    transports: [
-      new transports.Console({ format: prettyPrint() }),
-      new transports.DailyRotateFile({
-        filename: 'app-%DATE%.log',
-        datePattern: 'YYYY-MM-DD',
-        zippedArchive: true,
-        dirname: 'logs',
-        maxSize: '20m',
-        maxFiles: '14d',
-      }),
-    ],
-  });
+  const appLoggerInstance = createAppLoggerInstance();
 
-  req.app.logger = logger;
+  req.app.logger = appLoggerInstance;
 
   next();
 }
