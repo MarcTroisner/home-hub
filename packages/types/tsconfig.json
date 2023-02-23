@@ -2,7 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@package/ts-config/node.config.json",
   "include": [
-    "index.d.ts",
     ".eslintrc.cjs",
     "vitest.config.*",
     "src/**/*",

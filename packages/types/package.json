@@ -2,7 +2,7 @@
   "name": "@package/types",
   "version": "0.0.0",
   "private": true,
-  "main": "index.d.ts",
+  "main": "src/index.d.ts",
   "scripts": {
     "type-check": "tsc --noEmit -p tsconfig.json  --composite false",
     "lint": "eslint . --ext .ts,.tsx,.cts,.mts --fix --ignore-path ../../.gitignore",
