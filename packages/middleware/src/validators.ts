@@ -12,7 +12,9 @@ import { AppError } from './appError';
  * function. If the provided schema is not a valid Joi schema, a AppError with a status code 500 is thrown. If the validation is
  * successful, the request body is replaced with the validated data. Keys unknown to the schema are omitted.
  *
- * @param schema - Joi schema representing validation schema
+ * @see {@link https://joi.dev/} for the Joi documentation
+ *
+ * @param {ObjectSchema} schema - Joi schema representing validation schema
  * @returns Request handler performing validation
  */
 export function bodyValidator(schema: ObjectSchema): RequestHandler {
@@ -41,7 +43,9 @@ export function bodyValidator(schema: ObjectSchema): RequestHandler {
  * to the next function. If the provided schema is not a valid Joi schema, a AppError with a status code 500 is thrown. If the validation is
  * successful, the request query is replaced with the validated data. Keys unknown to the schema are omitted.
  *
- * @param schema - Joi schema representing validation schema
+ * @see {@link https://joi.dev/} for the Joi documentation
+ *
+ * @param {ObjectSchema} schema - Joi schema representing validation schema
  * @returns Request handler performing validation
  */
 export function queryValidator(schema: ObjectSchema): RequestHandler {
@@ -69,7 +73,9 @@ export function queryValidator(schema: ObjectSchema): RequestHandler {
  * Performs a validation on the request headers object with the given Joi schema. If the validation fails, a validation AppError passed
  * to the next function. If the provided schema is not a valid Joi schema, a AppError with a status code 500 is thrown.
  *
- * @param schema - Joi schema representing validation schema
+ * @see {@link https://joi.dev/} for the Joi documentation
+ *
+ * @param {ObjectSchema} schema - Joi schema representing validation schema
  * @returns Request handler performing validation
  */
 export function headerValidator(schema: ObjectSchema): RequestHandler {
@@ -97,7 +103,9 @@ export function headerValidator(schema: ObjectSchema): RequestHandler {
  * Performs a validation on the request cookies object with the given Joi schema. If the validation fails, a validation AppError passed
  * to the next function. If the provided schema is not a valid Joi schema, a AppError with a status code 500 is thrown.
  *
- * @param schema - Joi schema representing validation schema
+ * @see {@link https://joi.dev/} for the Joi documentation
+ *
+ * @param {ObjectSchema} schema - Joi schema representing validation schema
  * @returns Request handler performing validation
  */
 export function cookieValidator(schema: ObjectSchema): RequestHandler {

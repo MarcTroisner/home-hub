@@ -11,12 +11,12 @@ const { timestamp, json, combine, prettyPrint, metadata } = format;
  *
  * Logs app errors to console and log files
  *
- * @param {unknown} err - Error passed to middleware
- * @param {Request} req - Request object
- * @param {Response} res - Response object
+ * @param {Error} err - Error passed to middleware
+ * @param {Request} _req - Request object
+ * @param {Response} _res - Response object
  * @param {NextFunction} next - Next function
  */
-export function errorLogger(err: Error, req: Request, res: Response, next: NextFunction): void {
+export function errorLogger(err: Error, _req: Request, _res: Response, next: NextFunction): void {
   const logger = createLogger({
     level: 'error',
     defaultMeta: (process.env.SERVICE_NAME) ? { service: process.env.SERVICE_NAME } : undefined,
@@ -54,12 +54,12 @@ export function errorLogger(err: Error, req: Request, res: Response, next: NextF
  * If the received error is an instance of AppError, the error is converted to a response. If the error is any other error, a new
  * instance of AppError (with a 500 status code) is created and converted to a response.
  *
- * @param {unknown} err - Error passed to middleware
- * @param {Request} req - Request object
+ * @param {Error} err - Error passed to middleware
+ * @param {Request} _req - Request object
  * @param {Response} res - Response object
- * @param {NextFunction} next - Next function
+ * @param {NextFunction} _next - Next function
  */
-export function errorHandler(err: unknown, req: Request, res: Response, next: NextFunction): void {
+export function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction): void {
   const error = (err instanceof AppError) ? err : new AppError({ identifier: 'APP-0001' });
 
   res.status(error.getStatus()).send(error.getResponse());

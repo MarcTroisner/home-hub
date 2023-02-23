@@ -21,6 +21,8 @@ const LOG_LEVELS: Record<string, number> = {
  * Requests are logged to:
  * - The console as prettified JSON
  * - A file called http-{DATE}.log
+ *
+ * @returns {RequestHandler} HTTP-logger middleware
  */
 export function httpLogger(): RequestHandler {
   const logger = createLogger({
@@ -72,6 +74,10 @@ export function httpLogger(): RequestHandler {
  * Requests are logged to:
  * - The console as prettified JSON
  * - A file called app-{DATE}.log
+ *
+ * @param {Request} req - Request object
+ * @param {Response} _res - Response object
+ * @param {NextFunction} next - Next function
  */
 export function appLogger(req: Request, _res: Response, next: NextFunction): void {
   const logger = createLogger({
