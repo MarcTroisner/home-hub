@@ -4,6 +4,13 @@ import { createLogger, transports, format, Logger } from 'winston';
 import morgan from 'morgan';
 import 'winston-daily-rotate-file';
 
+type TLevels = keyof typeof LOG_LEVELS;
+
+interface ILoggerInstanceOptions {
+  level?: TLevels;
+  filename?: string;
+}
+
 const { combine, json, timestamp, prettyPrint, metadata } = format;
 
 const LOG_LEVELS: Record<string, number> = {
@@ -20,10 +27,10 @@ const LOG_LEVELS: Record<string, number> = {
  *
  * @returns {Logger} Configured app logger
  */
-export function createAppLoggerInstance(): Logger {
+export function createLoggerInstance({ level, filename }: ILoggerInstanceOptions = { level: 'trace', filename: 'app' }): Logger {
   return createLogger({
     levels: LOG_LEVELS,
-    level: 'trace',
+    level,
     defaultMeta: (process.env.SERVICE_NAME) ? { service: process.env.SERVICE_NAME } : undefined,
     format: combine(
       timestamp(),
@@ -33,7 +40,7 @@ export function createAppLoggerInstance(): Logger {
     transports: [
       new transports.Console({ format: prettyPrint() }),
       new transports.DailyRotateFile({
-        filename: 'app-%DATE%.log',
+        filename: `${filename}-%DATE%.log`,
         datePattern: 'YYYY-MM-DD',
         zippedArchive: true,
         dirname: 'logs',
@@ -54,27 +61,7 @@ export function createAppLoggerInstance(): Logger {
  * @returns {RequestHandler} HTTP-logger middleware
  */
 export function httpLogger(): RequestHandler {
-  const httpLoggerInstance = createLogger({
-    levels: LOG_LEVELS,
-    level: 'http',
-    defaultMeta: (process.env.SERVICE_NAME) ? { service: process.env.SERVICE_NAME } : undefined,
-    format: combine(
-      timestamp(),
-      json(),
-      metadata({ key: 'metadata' }),
-    ),
-    transports: [
-      new transports.Console({ format: prettyPrint() }),
-      new transports.DailyRotateFile({
-        filename: 'http-%DATE%.log',
-        datePattern: 'YYYY-MM-DD',
-        zippedArchive: true,
-        dirname: 'logs',
-        maxSize: '20m',
-        maxFiles: '14d',
-      }),
-    ],
-  });
+  const httpLoggerInstance = createLoggerInstance({ level: 'http', filename: 'http' });
 
   return morgan(
     (tokens, req, res) => JSON.stringify({
@@ -109,7 +96,7 @@ export function httpLogger(): RequestHandler {
  * @param {NextFunction} next - Next function
  */
 export function appLogger(req: Request, _res: Response, next: NextFunction): void {
-  const appLoggerInstance = createAppLoggerInstance();
+  const appLoggerInstance = createLoggerInstance({ filename: 'app' });
 
   req.app.logger = appLoggerInstance;
 

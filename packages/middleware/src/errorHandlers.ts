@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Request, Response, NextFunction } from 'express';
-import type { IErrorResponder } from '@package/types';
 
-import { createLogger, format, transports } from 'winston';
+import { createLoggerInstance } from './loggers';
 import { AppError } from './appError';
-
-const { timestamp, json, combine, prettyPrint, metadata } = format;
 
 /**
  * Error logger
@@ -18,26 +15,7 @@ const { timestamp, json, combine, prettyPrint, metadata } = format;
  * @param {NextFunction} next - Next function
  */
 export function errorLogger(err: Error, _req: Request, _res: Response, next: NextFunction): void {
-  const logger = createLogger({
-    level: 'error',
-    defaultMeta: (process.env.SERVICE_NAME) ? { service: process.env.SERVICE_NAME } : undefined,
-    format: combine(
-      timestamp(),
-      json(),
-      metadata({ key: 'metadata' }),
-    ),
-    transports: [
-      new transports.Console({ format: prettyPrint() }),
-      new transports.DailyRotateFile({
-        filename: 'error-%DATE%.log',
-        datePattern: 'YYYY-MM-DD',
-        zippedArchive: true,
-        dirname: 'logs',
-        maxSize: '20m',
-        maxFiles: '14d',
-      }),
-    ],
-  });
+  const logger = createLoggerInstance({ level: 'error', filename: 'error' });
 
   logger.error(err.message, {
     stack: err.stack,
