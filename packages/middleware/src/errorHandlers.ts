@@ -36,10 +36,10 @@ export function responder(req: Request, _res: Response, next: NextFunction): voi
      *
      * Can be used to invoke an error inside synchronous code blocks.
      *
-     * @param {string} identifier - App error identifier
-     * @param {Record<string, any>} meta - Optional meta data
+     * @param {string} [identifier = 'APP-0001'] - App error identifier
+     * @param {Record<string, any>} [meta = undefined] - Meta data
      */
-    sync(identifier: string, meta?: Record<string, any>): void {
+    sync(identifier: string = 'APP-0001', meta?: Record<string, any>): void {
       const error = new AppError({ identifier, meta });
 
       next(error);
@@ -50,11 +50,11 @@ export function responder(req: Request, _res: Response, next: NextFunction): voi
      * Can be used to invoke an error inside a asynchronous code block. Has to be caught afterwards and pass on to the error handler or the
      * sync method.
      *
-     * @param {string} identifier - App error identifier
-     * @param {Record<string, any>} meta - Optional meta data
+     * @param {string} [identifier = 'APP-0001'] - App error identifier
+     * @param {Record<string, any>} [meta = undefined] - Meta data
      * @returns {Promise<never>} A rejected promise
      */
-    async(identifier: string, meta?: Record<string, any>): Promise<never> {
+    async(identifier: string = 'APP-0001', meta?: Record<string, any>): Promise<never> {
       const error = new AppError({ identifier, meta });
 
       return Promise.reject(error);

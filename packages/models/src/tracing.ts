@@ -1,4 +1,5 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
+import { randomUUID } from 'crypto';
 
 /**
  * Available span status codes
@@ -110,9 +111,9 @@ export interface ISpan {
   events: ISpanEvent[];
 }
 
-const SpanEventMetaSchema = new Schema<Record<string, any>>({}, { strict: false });
+const SpanEventMetaSchema = new Schema<Record<string, any>>({}, { strict: false, _id: false });
 
-const SpanAttributeSchema = new Schema<Record<string, any>>({}, { strict: false });
+const SpanAttributeSchema = new Schema<Record<string, any>>({}, { strict: false, _id: false });
 
 const SpanEventSchema = new Schema<ISpanEvent>({
   name: {
@@ -129,21 +130,21 @@ const SpanEventSchema = new Schema<ISpanEvent>({
     type: SpanEventMetaSchema,
     default: {},
   },
-});
+}, { _id: false });
 
 const SpanContextSchema = new Schema<ISpanContext>({
   traceId: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     immutable: true,
   },
   spanId: {
-    type: Schema.Types.ObjectId,
-    default: new Types.ObjectId(),
+    type: String,
+    default: randomUUID(),
     required: true,
     immutable: true,
   },
-});
+}, { _id: false });
 
 const SpanSchema = new Schema<ISpan>({
   name: {
