@@ -77,7 +77,7 @@ export interface ISpan {
    */
   context: ISpanContext;
   /** Span parent ID. Undefined if the span is the root span */
-  parentId?: string;
+  parentId: string | null;
   /**
    * Span statuscode
    *
@@ -89,7 +89,7 @@ export interface ISpan {
    *
    * @default ''
    */
-  statusMessage?: string;
+  statusMessage: string;
   /** Timestamp recording the start of the span */
   startTime: Date;
   /** Timestamp recording the end of the span */
@@ -173,6 +173,7 @@ const SpanSchema = new Schema<ISpan>({
   },
   statusMessage: {
     type: String,
+    default: '',
   },
   startTime: {
     type: Date,
@@ -193,4 +194,4 @@ const SpanSchema = new Schema<ISpan>({
   },
 });
 
-export const SpanModel = model<ISpan>('Span', SpanSchema, 'tracing');
+export const SpanModel = model<ISpan>('Span', SpanSchema, 'spans');

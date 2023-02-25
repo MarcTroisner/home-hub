@@ -1,31 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Request, Response, NextFunction } from 'express';
 
-import { createLoggerInstance } from './loggers';
 import { AppError } from './appError';
-
-/**
- * Error logger
- *
- * Logs app errors to console and log files
- *
- * @param {Error} err - Error passed to middleware
- * @param {Request} _req - Request object
- * @param {Response} _res - Response object
- * @param {NextFunction} next - Next function
- */
-export function errorLogger(err: Error, _req: Request, _res: Response, next: NextFunction): void {
-  const logger = createLoggerInstance({ level: 'error', filename: 'error' });
-
-  logger.error(err.message, {
-    stack: err.stack,
-    os: logger.exceptions.getOsInfo(),
-    process: logger.exceptions.getProcessInfo(),
-    trace: logger.exceptions.getTrace(err),
-  });
-
-  next(err);
-}
 
 /**
  * Error handler

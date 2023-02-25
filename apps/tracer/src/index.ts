@@ -1,13 +1,14 @@
-import type { Request, Response } from 'express';
 import type { AddressInfo } from 'net';
 
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import { connection, connect, set } from 'mongoose';
 import { config } from 'dotenv';
 import { json } from 'body-parser';
-import cookieParser from 'cookie-parser';
-import { appLogger, httpLogger, createLoggerInstance } from '@package/middleware/logging';
-import { errorHandler, errorLogger, responder } from '@package/middleware/error-handling';
+import { appLogger, httpLogger, errorLogger, createLoggerInstance } from '@package/middleware/logging';
+import { errorHandler, responder } from '@package/middleware/error-handling';
+
+import spanRouter from '@/routers/spanRouter';
 
 config({ path: '.env.local', override: true });
 
@@ -48,9 +49,8 @@ app.use(appLogger);
 app.use(httpLogger());
 app.use(responder);
 
-app.get('/', (_req: Request, res: Response): void => {
-  res.send({ root: 'tracer-api' });
-});
+/** Register routes */
+app.use('/spans', spanRouter);
 
 /** Register error handlers */
 app.use(errorLogger);
