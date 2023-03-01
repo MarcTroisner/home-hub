@@ -14,7 +14,7 @@ import { AppError } from './appError';
  * @param {Response} res - Response object
  * @param {NextFunction} _next - Next function
  */
-export function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction): void {
+export function errorHandler(err: Error | AppError, _req: Request, res: Response, _next: NextFunction): void {
   const error = (err instanceof AppError) ? err : new AppError({ identifier: 'APP-0001' });
 
   res.status(error.getStatus()).send(error.getResponse());

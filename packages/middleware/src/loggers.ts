@@ -3,6 +3,7 @@ import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { createLogger, transports, format, Logger } from 'winston';
 import morgan from 'morgan';
 import 'winston-daily-rotate-file';
+import { AppError } from './appError';
 
 type TLevels = keyof typeof LOG_LEVELS;
 
@@ -113,10 +114,11 @@ export function appLogger(req: Request, _res: Response, next: NextFunction): voi
  * @param {Response} _res - Response object
  * @param {NextFunction} next - Next function
  */
-export function errorLogger(err: Error, _req: Request, _res: Response, next: NextFunction): void {
+export function errorLogger(err: AppError, _req: Request, _res: Response, next: NextFunction): void {
   const logger = createLoggerInstance({ level: 'error', filename: 'error' });
 
   logger.error(err.message, {
+    meta: err.meta,
     stack: err.stack,
     os: logger.exceptions.getOsInfo(),
     process: logger.exceptions.getProcessInfo(),

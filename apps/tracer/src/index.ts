@@ -13,7 +13,8 @@ import spanRouter from '@/routers/collectorRouter';
 config({ path: '.env.local', override: true });
 
 const app = express();
-const logger = createLoggerInstance();
+const errLogger = createLoggerInstance({ level: 'error', filename: 'error' });
+const logger = createLoggerInstance({ level: 'trace', filename: 'app' });
 
 /** Database setup */
 set('strictQuery', false);
@@ -25,7 +26,7 @@ connect(process.env.MONGO_URI as string)
     });
   })
   .catch((err) => {
-    logger.error(err.message, {
+    errLogger.error(err.message, {
       stack: err.stack,
       os: logger.exceptions.getOsInfo(),
       process: logger.exceptions.getProcessInfo(),
