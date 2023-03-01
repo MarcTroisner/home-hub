@@ -2,10 +2,10 @@ import { Router } from 'express';
 
 import { bodyValidator } from '@package/middleware';
 import { spanValidator } from '@/validators/spanValidators';
-import { saveSpan } from '@/handlers/spanHandler';
+import { collectSpan } from '@/handlers/collector';
 
 const router = Router();
 
-router.post('/', bodyValidator(spanValidator), saveSpan);
+router.post('/', bodyValidator(spanValidator), collectSpan);
 
 export default router;

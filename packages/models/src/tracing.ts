@@ -168,7 +168,7 @@ const SpanSchema = new Schema<ISpan>({
   },
   statusCode: {
     type: String,
-    enum: Object.keys(EStatusCodes),
+    enum: Object.values(EStatusCodes),
     required: true,
     default: EStatusCodes.UNSET,
   },

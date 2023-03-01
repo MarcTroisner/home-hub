@@ -8,7 +8,7 @@ import { json } from 'body-parser';
 import { appLogger, httpLogger, errorLogger, createLoggerInstance } from '@package/middleware/logging';
 import { errorHandler, responder } from '@package/middleware/error-handling';
 
-import spanRouter from '@/routers/spanRouter';
+import spanRouter from '@/routers/collectorRouter';
 
 config({ path: '.env.local', override: true });
 
@@ -50,7 +50,7 @@ app.use(httpLogger());
 app.use(responder);
 
 /** Register routes */
-app.use('/spans', spanRouter);
+app.use('/collector', spanRouter);
 
 /** Register error handlers */
 app.use(errorLogger);
