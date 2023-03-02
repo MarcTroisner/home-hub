@@ -36,11 +36,12 @@ export function responder(req: Request, _res: Response, next: NextFunction): voi
      *
      * Can be used to invoke an error inside synchronous code blocks.
      *
-     * @param {string} [identifier = 'APP-0001'] - App error identifier
+     * @param {string | Error} [identifier = 'APP-0001'] - App error identifier
      * @param {Record<string, any>} [meta = undefined] - Meta data
      */
-    sync(identifier: string = 'APP-0001', meta?: Record<string, any>): void {
-      const error = new AppError({ identifier, meta });
+    sync(identifier: string | unknown = 'APP-0001', meta?: Record<string, any>): void {
+      if (identifier instanceof Error) return next(identifier);
+      const error = (typeof identifier === 'string') ? new AppError({ identifier, meta }) : new AppError({ identifier: 'APP-0001' });
 
       next(error);
     },

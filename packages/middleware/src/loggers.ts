@@ -114,11 +114,11 @@ export function appLogger(req: Request, _res: Response, next: NextFunction): voi
  * @param {Response} _res - Response object
  * @param {NextFunction} next - Next function
  */
-export function errorLogger(err: AppError, _req: Request, _res: Response, next: NextFunction): void {
+export function errorLogger(err: Error | AppError, _req: Request, _res: Response, next: NextFunction): void {
   const logger = createLoggerInstance({ level: 'error', filename: 'error' });
 
   logger.error(err.message, {
-    meta: err.meta,
+    meta: (err instanceof AppError) ? err.meta : {},
     stack: err.stack,
     os: logger.exceptions.getOsInfo(),
     process: logger.exceptions.getProcessInfo(),

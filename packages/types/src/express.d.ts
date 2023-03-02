@@ -1,7 +1,7 @@
 import type { Logger } from 'winston';
 
 export interface IErrorResponder {
-  sync: (identifier?: string, meta?: Record<string, any>) => void;
+  sync: (identifier?: string | unknown, meta?: Record<string, any>) => void;
   async: (identifier?: string, meta?: Record<string, any>) => Promise<never>;
 }
 

@@ -7,11 +7,12 @@ export async function collectSpan(req: Request<{}, {}, ISpan>, res: Response): P
   const span = new SpanModel({ ...req.body });
 
   try {
+    throw new Error('oh no');
     req.app.logger.info(`Saving new span with id ${span.context.spanId}`);
     await span.save();
 
     res.status(201);
-  } catch {
-    req.app.responder.sync();
+  } catch (e) {
+    req.app.responder.sync(e);
   }
 }
