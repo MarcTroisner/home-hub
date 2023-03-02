@@ -53,8 +53,8 @@ export interface ISpanEvent {
  * @see {@link https://opentelemetry.io/docs/concepts/signals/traces/#span-context} Span context definition
  */
 export interface ISpanContext {
-  traceId: Schema.Types.ObjectId;
-  spanId: Schema.Types.ObjectId;
+  traceId: string;
+  spanId: string;
 }
 
 /**
@@ -196,3 +196,4 @@ const SpanSchema = new Schema<ISpan>({
 });
 
 export const SpanModel = model<ISpan>('Span', SpanSchema, 'spans');
+export const SpanEventModel = model<ISpanEvent>('SpanEvent', SpanEventSchema);
