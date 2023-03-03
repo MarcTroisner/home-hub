@@ -8,6 +8,11 @@
     "lint": "eslint . --ext .ts,.tsx,.cts,.mts --fix --ignore-path ../../.gitignore",
     "clean": "rm -rf node_modules && rm -rf .turbo"
   },
+  "exports": {
+    ".": "./src/index.ts",
+    "./module-augmentation": "./src/module-augmentation/index.d.ts",
+    "./middleware": "./src/middleware/index.d.ts"
+  },
   "devDependencies": {
     "@package/models": "*",
     "@types/express": "^4.17.17",
