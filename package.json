@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
+    "health-check": "turbo run health-check",
     "dev": "turbo run dev",
     "test": "turbo run test",
     "test:watch": "turbo run test:watch",

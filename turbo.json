@@ -15,6 +15,12 @@
         "dist/**"
       ]
     },
+    "health-check": {
+      "dependsOn": [
+        "^lint",
+        "^type-check"
+      ]
+    },
     "test": {
       "inputs": [
         "test/**/*spec.ts",
