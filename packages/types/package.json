@@ -9,7 +9,7 @@
     "clean": "rm -rf node_modules && rm -rf .turbo"
   },
   "exports": {
-    ".": "./src/index.ts",
+    ".": "./src/index.d.ts",
     "./module-augmentation": "./src/module-augmentation/index.d.ts",
     "./middleware": "./src/middleware/index.d.ts"
   },
