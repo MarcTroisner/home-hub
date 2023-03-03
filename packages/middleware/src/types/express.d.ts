@@ -1,5 +1,5 @@
-import type { IExpressAugmentation } from '@package/types';
+import type { IExpressApplication } from '@package/types/module-augmentation';
 
 declare module 'express-serve-static-core' {
-  interface Application extends IExpressAugmentation {}
+  interface Application extends IExpressApplication {}
 }

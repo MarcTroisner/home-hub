@@ -1,10 +1,6 @@
 import { toUpper } from 'lodash';
 
-/**
- * AppError constructor object
- *
- * @see AppError
- */
+/** AppError constructor object */
 export interface IAppError {
   identifier: string;
   meta?: Record<string, any>;
@@ -18,6 +14,7 @@ interface IAppErrorObject {
   status: number;
 }
 
+/** Error response object */
 export interface IAppErrorResponse extends IAppErrorObject {
   error: string;
   meta: Record<string, any>;

@@ -1,6 +1,7 @@
 import type { Logger } from 'winston';
 
 import type { IErrorResponder } from '../middleware/errorHandler';
+import type { ITracer } from '../middleware/tracer';
 
 /**
  * @file Contains module-augmentation types for express applications
@@ -9,8 +10,5 @@ import type { IErrorResponder } from '../middleware/errorHandler';
 export interface IExpressApplication {
   logger: Logger;
   responder: IErrorResponder;
-}
-
-export interface IExpressLocals {
-  service: string;
+  tracer: ITracer;
 }

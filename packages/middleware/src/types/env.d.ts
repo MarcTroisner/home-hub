@@ -1,5 +1,5 @@
-import type { IProcessEnvAugmentation } from '@package/types';
+import type { IProcessEnvNode } from '@package/types/module-augmentation';
 
 declare namespace NodeJS {
-  export interface ProcessEnv extends IProcessEnvAugmentation {}
+  export interface ProcessEnv extends IProcessEnvNode {}
 }

@@ -1,5 +1,4 @@
 import type { Request, Response, NextFunction } from 'express';
-import type { ITracer } from '@package/types';
 
 import { randomUUID } from 'crypto';
 import { get, set } from 'lodash';
@@ -13,7 +12,7 @@ import { SpanModel, SpanEventModel } from '@package/models';
  * @param {NextFunction} _next - Next function
  */
 export function traceProvider(req: Request, res: Response, next: NextFunction): void {
-  const tracer: ITracer = {
+  req.app.tracer = {
     $_state: {
       active: false,
       traceId: randomUUID(),

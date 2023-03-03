@@ -1,5 +1,5 @@
-import type { IHttpAugmentation } from '@package/types';
+import type { IHttpIncomingHttpHeaders } from '@package/types/module-augmentation';
 
 declare module 'http' {
-  interface IncomingHttpHeaders extends IHttpAugmentation {}
+  interface IncomingHttpHeaders extends IHttpIncomingHttpHeaders {}
 }

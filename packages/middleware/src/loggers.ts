@@ -2,8 +2,9 @@ import type { Request, Response, NextFunction, RequestHandler } from 'express';
 
 import { createLogger, transports, format, Logger } from 'winston';
 import morgan from 'morgan';
-import 'winston-daily-rotate-file';
 import { AppError } from './appError';
+
+import 'winston-daily-rotate-file';
 
 type TLevels = keyof typeof LOG_LEVELS;
 
