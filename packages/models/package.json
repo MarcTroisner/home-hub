@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@package/eslint-config": "*",
+    "@package/types": "*",
     "@package/ts-config": "*",
     "@package/vitest-config": "*",
     "@types/node": "^18.13.0",

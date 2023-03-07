@@ -26,6 +26,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/order': 'off',
     'object-curly-newline': 'off',
+    'no-param-reassign': 'off',
     'max-len': ['error', { code: 140 }],
     'consistent-return': 'off',
   }
