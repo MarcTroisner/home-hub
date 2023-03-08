@@ -5,10 +5,6 @@ import { randomUUID } from 'crypto';
 import { omit } from 'lodash';
 import { ESpanKind, EStatusCodes } from '@package/types/models';
 
-const SpanEventMetaSchema = new Schema<Record<string, any>>({}, { strict: false, _id: false });
-
-const SpanAttributeSchema = new Schema<Record<string, any>>({}, { strict: false, _id: false });
-
 const SpanEventSchema = new Schema<ISpanEvent>({
   name: {
     type: String,
@@ -21,10 +17,10 @@ const SpanEventSchema = new Schema<ISpanEvent>({
     immutable: true,
   },
   attributes: {
-    type: SpanEventMetaSchema,
+    type: Object,
     default: {},
   },
-}, { _id: false });
+}, { _id: false, minimize: false });
 
 const SpanContextSchema = new Schema<ISpanContext>({
   traceId: {
@@ -80,7 +76,7 @@ const SpanSchema = new Schema<ISpan>({
     type: Date,
   },
   attributes: {
-    type: SpanAttributeSchema,
+    type: Object,
     default: {},
   },
   events: {
@@ -88,6 +84,7 @@ const SpanSchema = new Schema<ISpan>({
     default: [],
   },
 }, {
+  minimize: false,
   toJSON: {
     transform: (doc, ret) => omit(ret, ['_id', '__v']),
   },

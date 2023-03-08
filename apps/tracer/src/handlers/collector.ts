@@ -1,18 +1,14 @@
 import type { Request, Response } from 'express';
-import type { ISpan } from '@package/models';
 
-import { SpanModel } from '@package/models';
+import { ESpanKind } from '@package/types/models';
 
-export async function collectSpan(req: Request<{}, {}, ISpan>, res: Response): Promise<void> {
-  const span = new SpanModel({ ...req.body });
+export async function collectSpan(req: Request, res: Response): Promise<void> {
+  req.app.tracer
+    .start()
+    .addSpan({ name: 'myspan', type: ESpanKind.CLIENT, mapping: 'test' })
+    .addSpanAttribute({ mapping: 'test', attributes: { my: 'attribute' } })
+    .addSpanEvent({ mapping: 'test', event: { name: 'My event' } })
+    .finishSpan({ mapping: 'test' });
 
-  try {
-    throw new Error('oh no');
-    req.app.logger.info(`Saving new span with id ${span.context.spanId}`);
-    await span.save();
-
-    res.status(201);
-  } catch (e) {
-    req.app.responder.sync(e);
-  }
+  res.send(req.app.tracer.$_state);
 }

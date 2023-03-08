@@ -42,8 +42,12 @@ export interface ISpanEvent {
   name: string;
   /** Timestamp of the occurring event */
   timestamp: Date;
-  /** Optional attribute meta data */
-  attributes: Record<string, any>;
+  /**
+   * Optional attribute meta data
+   *
+   * @default {}
+   */
+  attributes?: Record<string, any>;
 }
 
 /**

@@ -6,6 +6,7 @@ import { connection, connect, set } from 'mongoose';
 import { config } from 'dotenv';
 import { json } from 'body-parser';
 import { appLogger, httpLogger, errorLogger, createLoggerInstance } from '@package/middleware/logging';
+import { tracer } from '@package/middleware/tracing';
 import { errorHandler, responder } from '@package/middleware/error-handling';
 
 import spanRouter from '@/routers/collectorRouter';
@@ -19,7 +20,7 @@ const logger = createLoggerInstance({ level: 'trace', filename: 'app' });
 /** Database setup */
 set('strictQuery', false);
 
-connect(process.env.MONGO_URI as string)
+connect(process.env.MONGO_URI as string, { user: 'root', pass: 'example' })
   .then(() => {
     logger.info('Connected to MongoDB', {
       connection: process.env.MONGO_URI,
@@ -49,6 +50,7 @@ app.use(cookieParser());
 app.use(appLogger);
 app.use(httpLogger());
 app.use(responder);
+app.use(tracer);
 
 /** Register routes */
 app.use('/collector', spanRouter);

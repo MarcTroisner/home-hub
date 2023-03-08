@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { ESpanKind, EStatusCodes } from '@package/models';
+import { ESpanKind, EStatusCodes } from '@package/types/models';
 
 export const spanValidator = Joi.object({
   name: Joi.string().required(),
