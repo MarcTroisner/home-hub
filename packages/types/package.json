@@ -16,7 +16,6 @@
   },
   "devDependencies": {
     "@package/eslint-config": "*",
-    "@package/models": "*",
     "@package/ts-config": "*",
     "@types/express": "^4.17.17",
     "@types/node": "^18.13.0",

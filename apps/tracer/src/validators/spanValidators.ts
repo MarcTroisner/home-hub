@@ -10,7 +10,7 @@ export const spanValidator = Joi.object({
   }).required(),
   parentId: Joi.string().allow(null).required(),
   statusCode: Joi.string().valid(...Object.values(EStatusCodes)).required(),
-  statusMessage: Joi.string().required(),
+  statusMessage: Joi.string().allow('').required(),
   startTime: Joi.date().required(),
   endTime: Joi.date().required(),
   attributes: Joi.object().unknown(true).required(),

@@ -3,6 +3,7 @@ import type { ISpanMapping } from '@package/types/middleware';
 
 import { randomUUID } from 'crypto';
 import { get, set, join, split, chain, merge } from 'lodash';
+import { post } from 'axios';
 import { SpanModel, SpanEventModel } from '@package/models';
 import { ESpanKind } from '@package/types/models';
 
@@ -31,7 +32,7 @@ export function tracer(req: Request, res: Response, next: NextFunction): void {
     },
 
     $_checkSpanExists(mapping) {
-      const computedMapping = `root.children.${chain(mapping).split('.').join('.children.').value()}`;
+      const computedMapping = chain(mapping).split('.').join('.children.').value();
       const span = get(this.$_state.mapper, computedMapping, null);
 
       if (span === null) req.app.logger.warn(`No span exists for mapping '${mapping}'.`);
@@ -41,13 +42,13 @@ export function tracer(req: Request, res: Response, next: NextFunction): void {
 
     $_computeMapping(mapping) {
       const mappingSpans = split(mapping, '.');
-      const computedMapping = `root.children.${join(mappingSpans, '.children.')}`;
+      const computedMapping = join(mappingSpans, '.children.');
 
       // Check if mapping is a valid path to a existing parent
       if (mappingSpans.length >= 2) {
         const mappingToCheck = (mappingSpans.length === 2) ? `${mappingSpans[0]}.children` : `${join(mappingSpans, '.children.')}.children`;
 
-        if (get(this.$_state.mapper, `root.children.${mappingToCheck}`, null) === null) {
+        if (get(this.$_state.mapper, mappingToCheck, null) === null) {
           req.app.logger.warn(`Mapping '${mapping}' does not point to a valid parent.`);
           return null;
         }
@@ -62,8 +63,12 @@ export function tracer(req: Request, res: Response, next: NextFunction): void {
 
       const rootSpan = new SpanModel({
         name: req.path,
+        parentId,
         context: {
           traceId: this.$_state.traceId,
+        },
+        attributes: {
+          service: process.env.SERVICE_NAME,
         },
       });
 
@@ -89,7 +94,10 @@ export function tracer(req: Request, res: Response, next: NextFunction): void {
         instance: new SpanModel({
           name,
           type,
-          attributes,
+          attributes: {
+            ...attributes,
+            service: process.env.SERVICE_NAME,
+          },
           context: {
             traceId: this.$_state.traceId,
           },
@@ -112,17 +120,14 @@ export function tracer(req: Request, res: Response, next: NextFunction): void {
 
       const span = get(this.$_state.mapper, computedMapping);
 
-      const spanDoc = new SpanModel({
-        ...span.instance,
-        endTime: Date.now(),
-      });
-      await spanDoc.save()
+      span.instance.endTime = new Date();
+
+      await post(`${process.env.TRACER_SERVICE}/collector`, span.instance)
         .then(() => {
           req.app.logger.info(`Span '${span.instance.context.spanId}' finished.`);
         })
-        .catch((e) => {
-          req.app.logger.warn('a', { e });
-          // req.app.logger.warn(`Failed to save span '${span.instance.context.spanId}'.`);
+        .catch(() => {
+          req.app.logger.warn(`Failed to save span '${span.instance.context.spanId}'.`);
         });
 
       return this;

@@ -20,7 +20,7 @@ const logger = createLoggerInstance({ level: 'trace', filename: 'app' });
 /** Database setup */
 set('strictQuery', false);
 
-connect(process.env.MONGO_URI as string, { user: 'root', pass: 'example' })
+connect(process.env.MONGO_URI as string, { user: 'root', pass: 'example', authSource: 'admin' })
   .then(() => {
     logger.info('Connected to MongoDB', {
       connection: process.env.MONGO_URI,
@@ -54,6 +54,10 @@ app.use(tracer);
 
 /** Register routes */
 app.use('/collector', spanRouter);
+
+app.get('/', (_req, res) => {
+  res.status(200).send({ service: process.env.SERVICE_NAME });
+});
 
 /** Register error handlers */
 app.use(errorLogger);

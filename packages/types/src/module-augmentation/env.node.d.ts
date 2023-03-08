@@ -7,4 +7,5 @@ export interface IProcessEnvNode {
   PORT?: string;
   NODE_ENV?: 'development' | 'production';
   SERVICE_NAME?: string;
+  TRACER_SERVICE?: string;
 }

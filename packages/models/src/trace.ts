@@ -55,6 +55,7 @@ const SpanSchema = new Schema<ISpan>({
   parentId: {
     type: String,
     immutable: true,
+    default: null,
   },
   statusCode: {
     type: String,
