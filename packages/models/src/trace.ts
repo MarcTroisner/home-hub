@@ -20,7 +20,7 @@ const SpanEventSchema = new Schema<ISpanEvent>({
     type: Object,
     default: {},
   },
-}, { _id: false, minimize: false });
+}, { _id: false, minimize: false, autoCreate: false });
 
 const SpanContextSchema = new Schema<ISpanContext>({
   traceId: {
