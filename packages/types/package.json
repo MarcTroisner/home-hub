@@ -10,7 +10,6 @@
   },
   "exports": {
     ".": "./src/index.ts",
-    "./models": "./src/models/index.ts",
     "./module-augmentation": "./src/module-augmentation/index.d.ts",
     "./middleware": "./src/middleware/index.ts"
   },

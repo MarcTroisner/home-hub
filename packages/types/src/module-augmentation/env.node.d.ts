@@ -5,7 +5,6 @@
 export interface IProcessEnvNode {
   [key: string]: string | undefined;
   PORT?: string;
-  NODE_ENV?: 'development' | 'production';
+  NODE_ENV?: 'development' | 'production' | 'testing';
   SERVICE_NAME?: string;
-  TRACER_SERVICE?: string;
 }

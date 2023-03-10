@@ -13,8 +13,7 @@
     ".": "./src/index.ts",
     "./validation": "./src/validators.ts",
     "./error-handling": "./src/errorHandlers.ts",
-    "./logging": "./src/loggers.ts",
-    "./tracing": "./src/tracer.ts"
+    "./logging": "./src/loggers.ts"
   },
   "devDependencies": {
     "@package/eslint-config": "*",

@@ -6,7 +6,6 @@ import { connection, connect, set } from 'mongoose';
 import { config } from 'dotenv';
 import { json } from 'body-parser';
 import { appLogger, httpLogger, errorLogger, createLoggerInstance } from '@package/middleware/logging';
-import { tracer } from '@package/middleware/tracing';
 import { errorHandler, responder } from '@package/middleware/error-handling';
 
 config({ path: '.env.local', override: true });
@@ -48,17 +47,10 @@ app.use(cookieParser());
 app.use(appLogger);
 app.use(httpLogger());
 app.use(responder);
-app.use(tracer);
 
 /** Register routes */
 app.get('/', (req, res) => {
-  req.app.tracer
-    .start()
-    .addSpanEvent({ mapping: 'root', event: { name: 'Some event', attributes: { foo: 'bar' } } })
-    .addSpanAttribute({ mapping: 'root', attributes: { some: 'attr' } })
-    .finishSpan({ mapping: 'root' });
-
-  res.sendStatus(200);
+  res.send({ service: process.env.SERVICE_NAME });
 });
 
 /** Register error handlers */

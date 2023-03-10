@@ -13,7 +13,7 @@ interface ILoggerInstanceOptions {
   filename?: string;
 }
 
-const { combine, json, timestamp, prettyPrint, metadata } = format;
+const { combine, json, timestamp, prettyPrint, metadata, colorize } = format;
 
 const LOG_LEVELS: Record<string, number> = {
   error: 0,
@@ -40,7 +40,12 @@ export function createLoggerInstance({ level, filename }: ILoggerInstanceOptions
       metadata({ key: 'metadata' }),
     ),
     transports: [
-      new transports.Console({ format: prettyPrint() }),
+      new transports.Console({
+        format: combine(
+          prettyPrint(),
+          colorize(),
+        ),
+      }),
       new transports.DailyRotateFile({
         filename: `${filename}-%DATE%.log`,
         datePattern: 'YYYY-MM-DD',
