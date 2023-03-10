@@ -6,7 +6,8 @@
     "node.config.js"
   ],
   "scripts": {
-    "clean": "rm -rf node_modules && rm -rf .turbo"
+    "clean:turbo": "rm -rf .turbo",
+    "clean:node-modules": "rm -rf node_modules"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.52.0",

@@ -7,9 +7,9 @@
     "build": {
       "dependsOn": [
         "^build",
-        "lint",
-        "type-check",
-        "test"
+        "^lint",
+        "^type-check",
+        "^test"
       ],
       "outputs": [
         "dist/**"
@@ -17,8 +17,8 @@
     },
     "health-check": {
       "dependsOn": [
-        "^lint",
-        "^type-check"
+        "lint",
+        "type-check"
       ]
     },
     "test": {
@@ -33,15 +33,29 @@
         "test/**/*test.ts"
       ]
     },
+    "clean": {
+      "dependsOn": [
+        "clean:logs",
+        "clean:turbo",
+        "clean:node-modules",
+        "clean:dist"
+      ]
+    },
     "lint": {},
     "type-check": {},
     "dev": {
       "cache": false
     },
-    "clean": {
+    "clean:logs": {
       "cache": false
     },
-    "clean:logs": {
+    "clean:turbo": {
+      "cache": false
+    },
+    "clean:node-modules": {
+      "cache": false
+    },
+    "clean:dist": {
       "cache": false
     }
   }

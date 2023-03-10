@@ -6,7 +6,8 @@
     "node.config.js"
   ],
   "scripts": {
-    "clean": "rm -rf node_modules && rm -rf .turbo"
+    "clean:turbo": "rm -rf .turbo",
+    "clean:node-modules": "rm -rf node_modules"
   },
   "devDependencies": {
     "vitest": "^0.28.5"

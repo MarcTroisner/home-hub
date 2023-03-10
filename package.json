@@ -15,7 +15,10 @@
     "lint": "turbo run lint",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean",
-    "clean:logs": "turbo run clean:logs"
+    "clean:logs": "turbo run clean:logs",
+    "clean:turbo": "turbo run clean:turbo",
+    "clean:node-modules": "turbo run clean:node-modules",
+    "clean:dist": "turbo run clean:dist"
   },
   "devDependencies": {
     "turbo": "latest"
