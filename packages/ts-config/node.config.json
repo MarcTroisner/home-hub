@@ -4,24 +4,24 @@
     "target": "ESNext",
     "module": "ESNext",
     "allowJs": false,
-    "removeComments": false,
-    "typeRoots": [
-      "../../node_modules/@types",
-      "./src/types"
-    ],
-    "types": [
-      "node"
-    ],
+    "removeComments": true,
     "strict": true,
-    "lib": [
-      "ESNext"
-    ],
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "nodenext",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
+    "types": [
+      "node"
+    ],
+    "lib": [
+      "ESNext"
+    ]
   },
   "ts-node": {
     "files": true,
