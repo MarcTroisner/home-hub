@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "esbuild src/index.ts --platform=node --bundle --minify --outfile=dist/index.js",
+    "build": "esbuild src/index.ts --platform=node --bundle --minify --target=node18 --outfile=dist/index.js",
     "dev": "nodemon -r tsconfig-paths/register src/index.ts",
     "test": "vitest --watch=false",
     "test:watch": "vitest",
