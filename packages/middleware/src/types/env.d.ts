@@ -1,9 +1,9 @@
-import type { IProcessEnvNode } from '@package/types/module-augmentation';
-
 declare global {
   namespace NodeJS {
-    interface ProcessEnv extends IProcessEnvNode {
-      MONGO_URI?: string;
+    interface ProcessEnv {
+      [key: string]: string | undefined;
+      NODE_ENV?: 'development' | 'production' | 'test';
+      SERVICE_NAME?: string;
     }
   }
 }

@@ -19,7 +19,6 @@
   "devDependencies": {
     "@package/eslint-config": "*",
     "@package/ts-config": "*",
-    "@package/types": "*",
     "@package/vitest-config": "*",
     "@types/cookie-parser": "^1.4.3",
     "@types/express": "^4.17.17",

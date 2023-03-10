@@ -3,6 +3,11 @@ import type { Request, Response, NextFunction } from 'express';
 
 import { AppError } from './appError';
 
+export interface IErrorResponder {
+  sync: (identifier?: string | unknown, meta?: Record<string, any>) => void;
+  async: (identifier?: string, meta?: Record<string, any>) => Promise<never>;
+}
+
 /**
  * Error handler
  *

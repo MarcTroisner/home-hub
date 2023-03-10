@@ -1,5 +1,7 @@
-import type { IWinstonLogger } from '@package/types/module-augmentation';
+import type { LeveledLogMethod } from 'winston';
 
 declare module 'winston' {
-  interface Logger extends IWinstonLogger {}
+  interface Logger {
+    trace: LeveledLogMethod;
+  }
 }
