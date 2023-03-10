@@ -1,20 +1,15 @@
 import { toUpper } from 'lodash';
 
-/** AppError constructor object */
 export interface IAppError {
   identifier: string;
   meta?: Record<string, any>;
 }
 
-/** Unique error object */
 interface IAppErrorObject {
-  /** Short, human-readably description of the error */
   detail: string;
-  /** Status code associated with error */
   status: number;
 }
 
-/** Error response object */
 export interface IAppErrorResponse extends IAppErrorObject {
   error: string;
   meta: Record<string, any>;
@@ -24,17 +19,15 @@ export interface IAppErrorResponse extends IAppErrorObject {
  * AppError class used to handle errors in the application
  *
  * @class
- * @public
- *
  * @param {string} identifier - Unique error identifier. If invalid, falls back to APP-0001, which is the equivalent to an internal
  * server error
  * @param {Record<string, any>} [meta] - Metadata object
  */
 export class AppError extends Error {
   /**
-   * @property {Record<string, IAppErrorObject>} $_errors - Collection of available errors, where the key is the unique identifier
-   * for the error
    * @private
+   * Collection of available errors, where the key is the unique identifier for the error and the value is a object containing a
+   * status and a short, human-readable message
    */
   $_errors: Record<string, IAppErrorObject> = {
     'TEST-0001': {
@@ -51,9 +44,10 @@ export class AppError extends Error {
     },
   };
 
-  /** @property {string} identifier - Unique error identifier */
+  /** @member {string} identifier - Unique error identifier */
   identifier: string;
-  /** @property {Record<string, any>} meta - Metadata object */
+
+  /** @member {Record<string, any>} meta - Metadata object */
   meta: Record<string, any>;
 
   constructor({ identifier, meta = {} }: IAppError) {

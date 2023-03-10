@@ -10,7 +10,7 @@ type TLevels = keyof typeof LOG_LEVELS;
 
 interface ILoggerInstanceOptions {
   level?: TLevels;
-  filename?: string;
+  filename: string;
 }
 
 const { combine, json, timestamp, prettyPrint, metadata, colorize } = format;
@@ -25,11 +25,15 @@ const LOG_LEVELS: Record<string, number> = {
 };
 
 /**
- * Creates a usable app-logger instance
+ * Creates a logger instance
  *
- * @returns {Logger} Configured app logger
+ * Requests are logged to:
+ * - The console as prettified JSON
+ * - A file called <filename>-{DATE}.log
+ *
+ * @returns {Logger} Configured logger
  */
-export function createLoggerInstance({ level, filename }: ILoggerInstanceOptions = { level: 'trace', filename: 'app' }): Logger {
+export function createLoggerInstance({ level = 'trace', filename }: ILoggerInstanceOptions): Logger {
   return createLogger({
     levels: LOG_LEVELS,
     level,
@@ -61,10 +65,6 @@ export function createLoggerInstance({ level, filename }: ILoggerInstanceOptions
 /**
  * Registers an HTTP-logger which logs every incoming request
  *
- * Requests are logged to:
- * - The console as prettified JSON
- * - A file called http-{DATE}.log
- *
  * @returns {RequestHandler} HTTP-logger middleware
  */
 export function httpLogger(): RequestHandler {
@@ -94,10 +94,6 @@ export function httpLogger(): RequestHandler {
 /**
  * Registers an app-logger which will be available everywhere from req.app.logger
  *
- * Requests are logged to:
- * - The console as prettified JSON
- * - A file called app-{DATE}.log
- *
  * @param {Request} req - Request object
  * @param {Response} _res - Response object
  * @param {NextFunction} next - Next function
@@ -112,8 +108,6 @@ export function appLogger(req: Request, _res: Response, next: NextFunction): voi
 
 /**
  * Error logger
- *
- * Logs app errors to console and log files
  *
  * @param {Error} err - Error passed to middleware
  * @param {Request} _req - Request object
